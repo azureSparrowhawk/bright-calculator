@@ -1,5 +1,5 @@
 #MARK: Imports
-
+from curses.ascii import isalpha
 from time import sleep
 
 #MARK: Functions
