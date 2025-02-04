@@ -1,12 +1,11 @@
-#MARK: Imports
+#MARK: Imports----------------------------------------------------------------------------------------------------------
 
-# heleleleleleo
-from curses.ascii import isalpha
 from time import sleep
 
-#MARK: Functions
+
+#MARK: Functions--------------------------------------------------------------------------------------------------------
 def isPrime(numberToCheck)->bool:
-    if numberToCheck == 0 or numberToCheck == 1:
+    if numberToCheck <= 2:
         return False
     # noinspection PyArgumentList
     for i in range(2, int((numberToCheck/2)+1)):
@@ -60,12 +59,14 @@ def lcmAndHCF(firstNum, allNumbers):
     allFactorLists = [primeFactorisation(number) for number in allNumbers]
     firstNumFactorList = primeFactorisation(firstNum)
     commonPrimeFactors = []
+
     for z in firstNumFactorList.copy():
         if all(z in factorList for factorList in allFactorLists):
             commonPrimeFactors.append(z)
             for factorList in allFactorLists:
                 factorList.remove(z)
             firstNumFactorList.remove(z)
+
     for blablabla in commonPrimeFactors:
         HCF *= blablabla
     LCM = HCF
@@ -74,9 +75,11 @@ def lcmAndHCF(firstNum, allNumbers):
             LCM *= factor
     for factor in firstNumFactorList:
         LCM *= factor
+
     return {"HCF": HCF,
             "LCM": LCM}
 """Returns the HCF and LCM of firstNum and the numbers in the list allNumbers"""
+
 
 def primesUpTo(upperLimit, lowerLimit=0):
     allPrimesToLimit = []
@@ -88,12 +91,19 @@ def primesUpTo(upperLimit, lowerLimit=0):
 """Returns all primes from lowerLimit to upperLimit as integers in a list"""
 
 
-#MARK: Mainloop
+#MARK: Mainloop---------------------------------------------------------------------------------------------------------
 on = True
 while on:
-
     try:#In case a user types a letter instead of a number
-        whatDo = int(input("Press 1 for the multiples of a number, 2 for the factors of a number, 3 to check if a number is prime, 4 to search for the primes between two numbers, 5 for prime factorisation, 6 for LCM and HCF: \n"))
+        whatDo = int(input("""
+Choose an option:
+    1: Multiples
+    2: Factors
+    3: Prime Check
+    4: Primes in Range
+    5: Prime Factorization
+    6: LCM and HCF
+Enter choice: """))
     except ValueError:
         print("Please enter a valid number from the list of options above\n")
         sleep(4)
