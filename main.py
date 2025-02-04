@@ -1,14 +1,13 @@
 #MARK: Imports
-#testing
+
 from time import sleep
 
 #MARK: Functions
-
 def isPrime(numberToCheck)->bool:
     if numberToCheck == 0 or numberToCheck == 1:
         return False
     # noinspection PyArgumentList
-    for i in range(2, numberToCheck):
+    for i in range(2, int((numberToCheck/2)+1)):
         if numberToCheck%i == 0:
             return False
     return True
@@ -29,7 +28,7 @@ def primeFactorisation(numberToFactorise):
     while not isListPrime(startList):#While the list containing the (prime) factors is not completely made of primes
         for i in startList:
             if not isPrime(i):#If i isn't prime, it finds something to divide it by
-                for d in range(2, i):
+                for d in range(2, int((i/2)+1)):
                     if i%d == 0:
                         startList.remove(i)
                         startList.append(d)
@@ -48,7 +47,7 @@ def multiples(number, maximumNumber):
 
 def factors(number):
     # noinspection PyArgumentList
-    numbeList = [i for i in range(1, number + 1) if number % i == 0]
+    numbeList = [i for i in range(1, int((number/2)+1)) if number % i == 0]
     return numbeList
 """Returns all factors of numbe as integers in a list."""
 
