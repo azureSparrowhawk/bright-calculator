@@ -4,10 +4,11 @@ from tkinter import messagebox
 
 #MARK: Functions--------------------------------------------------------------------------------------------------------
 def isPrime(numberToCheck)->bool:
-    if numberToCheck <= 2:
+    if numberToCheck <= 1:
         return False
     if type(numberToCheck) == float:
         return False
+
     # noinspection PyArgumentList
     for i in range(2, int((numberToCheck/2)+1)):
         if numberToCheck%i == 0:
