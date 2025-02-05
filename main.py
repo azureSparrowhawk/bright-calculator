@@ -17,12 +17,14 @@ def isPrime(numberToCheck)->bool:
 """Checks if a number is prime by trying to divide it cleanly by all numbers from to to itself -1"""
 
 
+
 def isListPrime(listToCheck:list):
     for i in listToCheck:
         if not isPrime(i):
             return False
     return True
 """Checks if all numbers in a list are prime by seeing if each number in it is prime(using the isPrime() function)"""
+
 
 
 # noinspection PyArgumentList
@@ -41,6 +43,7 @@ def primeFactorisation(numberToFactorise):
 """Returns all prime factors of a given number as integers in a list. For example, primeFactorisation(8) would return [2, 2, 2]"""
 
 
+
 # noinspection PyArgumentList
 def multiples(number, maximumNumber):
     numbList = [number * i for i in range(1, maximumNumber + 1)]
@@ -48,11 +51,13 @@ def multiples(number, maximumNumber):
 """Returns the multiples of a dNum as integers in a list. The multiples go from dNum to dNum*mNum"""
 
 
+
 def factors(number):
     # noinspection PyArgumentList
     numbeList = [i for i in range(1, int((number/2)+1)) if number % i == 0]
     return numbeList
 """Returns all factors of numbe as integers in a list."""
+
 
 
 def lcmAndHCF(firstNum, allNumbers):
@@ -83,6 +88,7 @@ def lcmAndHCF(firstNum, allNumbers):
 """Returns the HCF and LCM of firstNum and the numbers in the list allNumbers"""
 
 
+
 def primesUpTo(upperLimit, lowerLimit=0):
     start = time()
     allPrimesToLimit = []
@@ -99,11 +105,11 @@ def primesUpTo(upperLimit, lowerLimit=0):
     seconds = int(timeTaken % 60)  #ChatGPT
     milliseconds = (timeTaken % 1) * 1000000  #ChatGPT
 
-    # Format as HH:MM:SS.MMMMM (with microsecond precision)
     formatted_time = f"Time taken:  {hours}:{minutes}:{seconds}.{int(milliseconds)}"
     print(formatted_time)
     return allPrimesToLimit
 """Returns all primes from lowerLimit to upperLimit as integers in a list"""
+
 
 
 #MARK: Mainloop---------------------------------------------------------------------------------------------------------
@@ -125,6 +131,7 @@ Enter choice: """))
         continue
     print("\n")
 
+
     #MARK: Multiples----------------------------------------------------------------------------------------------------
     if whatDo == 1:
          inputedText = input("What number would you like to find the multiples of?\n")
@@ -142,6 +149,7 @@ Enter choice: """))
              on = False
          else:
              pass
+
 
     #MARK: Factors------------------------------------------------------------------------------------------------------
     elif whatDo == 2:
