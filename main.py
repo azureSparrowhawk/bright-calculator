@@ -124,7 +124,7 @@ Enter choice: """))
         continue
     print("\n")
 
-    #MARK: Multiples
+    #MARK: Multiples----------------------------------------------------------------------------------------------------
     if whatDo == 1:
          inputedText = input("What number would you like to find the multiples of?\n")
          num = int(inputedText)
@@ -142,7 +142,7 @@ Enter choice: """))
          else:
              pass
 
-    #MARK: Factors
+    #MARK: Factors------------------------------------------------------------------------------------------------------
     elif whatDo == 2:
         num = int(input("What number would you like to find the factors of?\n"))
         print("\n")
@@ -159,7 +159,7 @@ Enter choice: """))
             pass
 
 
-    #MARK: Check if a number is prime
+    #MARK: Check if a number is prime-----------------------------------------------------------------------------------
     elif whatDo == 3:
 
         num = int(input("Which number would you check to see if it's prime?\n"))
@@ -184,7 +184,7 @@ Enter choice: """))
                 pass
 
 
-    #MARK: Primes from l to u
+    #MARK: Primes from l to u-------------------------------------------------------------------------------------------
     elif whatDo == 4:
         l = int(input("What is your lower limit(eg. 100 in 100-200)?\n"))
         u = int(input("What is your upper limit(eg. 200 in 100-200)?\n"))
@@ -213,7 +213,7 @@ Enter choice: """))
             pass
 
 
-    #NOTE: HCF and LCM
+    #MARK: HCF and LCM--------------------------------------------------------------------------------------------------
     elif whatDo == 6:
 
         moreNumbersFromUserInput = True
@@ -229,6 +229,7 @@ Enter choice: """))
                 print("Calculating...\n")
                 moreNumbersFromUserInput = False
 
+        # Most of the below code is for the purpose of proper grammar in the input() statement at the bottom
         allInputtedNumbers.append(b)
         lcmHCF = lcmAndHCF(a, allInputtedNumbers)
         allInputtedNumbers.append(a)
