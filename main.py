@@ -1,11 +1,12 @@
 #MARK: Imports----------------------------------------------------------------------------------------------------------
-
-from time import sleep
-
+from time import sleep, time
+from tkinter import messagebox
 
 #MARK: Functions--------------------------------------------------------------------------------------------------------
 def isPrime(numberToCheck)->bool:
     if numberToCheck <= 2:
+        return False
+    if type(numberToCheck) == float:
         return False
     # noinspection PyArgumentList
     for i in range(2, int((numberToCheck/2)+1)):
@@ -82,11 +83,24 @@ def lcmAndHCF(firstNum, allNumbers):
 
 
 def primesUpTo(upperLimit, lowerLimit=0):
+    start = time()
     allPrimesToLimit = []
     # noinspection PyArgumentList
     for i in range(lowerLimit, upperLimit + 1):
         if isPrime(i):
             allPrimesToLimit.append(i)
+
+    end = time() #ChatGPT
+    timeTaken = end-start#ChatGPT
+    # Convert to hours, minutes, seconds, and fractional seconds
+    hours = int(timeTaken // 3600)  #ChatGPT
+    minutes = int((timeTaken % 3600) // 60)  #ChatGPT
+    seconds = int(timeTaken % 60)  #ChatGPT
+    milliseconds = (timeTaken % 1) * 1000000  #ChatGPT
+
+    # Format as HH:MM:SS.MMMMM (with microsecond precision)
+    formatted_time = f"Time taken:  {hours}:{minutes}:{seconds}.{int(milliseconds)}"
+    print(formatted_time)
     return allPrimesToLimit
 """Returns all primes from lowerLimit to upperLimit as integers in a list"""
 
@@ -112,7 +126,8 @@ Enter choice: """))
 
     #MARK: Multiples
     if whatDo == 1:
-         num = int(input("What number would you like to find the multiples of?\n"))
+         inputedText = input("What number would you like to find the multiples of?\n")
+         num = int(inputedText)
          print("\n")
          maxNum = int(input("What number would you like to multiply up to?\n"))
          print("\n")
@@ -175,7 +190,7 @@ Enter choice: """))
         u = int(input("What is your upper limit(eg. 200 in 100-200)?\n"))
         p = primesUpTo(u, l)
         p = [str(num) for num in p]
-        x = input(f"The primes from {l} to {u} are{"\n".join(p)}.\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
+        x = input(f"The primes from {l} to {u} are {", ".join(p)}\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
         if x == "n":
             on = False
         else:
