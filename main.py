@@ -1,6 +1,5 @@
 #MARK: Imports----------------------------------------------------------------------------------------------------------
 from time import sleep, time
-from tkinter import messagebox
 
 #MARK: Functions--------------------------------------------------------------------------------------------------------
 def isPrime(numberToCheck)->bool:
@@ -39,6 +38,7 @@ def primeFactorisation(numberToFactorise):
                         startList.append(d)
                         startList.append(int(i/d))
                         break
+    startList.sort()
     return startList
 """Returns all prime factors of a given number as integers in a list. For example, primeFactorisation(8) would return [2, 2, 2]"""
 
@@ -47,6 +47,7 @@ def primeFactorisation(numberToFactorise):
 # noinspection PyArgumentList
 def multiples(number, maximumNumber):
     numbList = [number * i for i in range(1, maximumNumber + 1)]
+    numbList.sort()
     return numbList
 """Returns the multiples of a dNum as integers in a list. The multiples go from dNum to dNum*mNum"""
 
@@ -55,27 +56,29 @@ def multiples(number, maximumNumber):
 def factors(number):
     # noinspection PyArgumentList
     numbeList = [i for i in range(1, int((number/2)+1)) if number % i == 0]
+    numbeList.append(number)
+    numbeList.sort()
     return numbeList
 """Returns all factors of numbe as integers in a list."""
 
 
 
-def lcmAndHCF(firstNum, allNumbers):
+def lcmAndHCF(lastNum, allNumbers):
     HCF = 1
     LCM = 1
     allFactorLists = [primeFactorisation(number) for number in allNumbers]
-    firstNumFactorList = primeFactorisation(firstNum)
+    firstNumFactorList = primeFactorisation(lastNum)
     commonPrimeFactors = []
 
-    for z in firstNumFactorList.copy():
-        if all(z in factorList for factorList in allFactorLists):
-            commonPrimeFactors.append(z)
+    for firstNumFactor in firstNumFactorList.copy():
+        if all(firstNumFactor in factorList for factorList in allFactorLists):
+            commonPrimeFactors.append(firstNumFactor)
             for factorList in allFactorLists:
-                factorList.remove(z)
-            firstNumFactorList.remove(z)
+                factorList.remove(firstNumFactor)
+            firstNumFactorList.remove(firstNumFactor)
 
-    for blablabla in commonPrimeFactors:
-        HCF *= blablabla
+    for commonPrimeFactor in commonPrimeFactors:
+        HCF *= commonPrimeFactor #Finds HCF by multiplying all the comm on
     LCM = HCF
     for factorList in allFactorLists:
         for factor in factorList:
@@ -104,17 +107,18 @@ def primesUpTo(upperLimit, lowerLimit=0):
     minutes = int((timeTaken % 3600) // 60)  #ChatGPT
     seconds = int(timeTaken % 60)  #ChatGPT
     milliseconds = (timeTaken % 1) * 1000000  #ChatGPT
-
     formatted_time = f"Time taken:  {hours}:{minutes}:{seconds}.{int(milliseconds)}"
+
     print(formatted_time)
+    allPrimesToLimit.sort()
     return allPrimesToLimit
 """Returns all primes from lowerLimit to upperLimit as integers in a list"""
 
 
 
 #MARK: Mainloop---------------------------------------------------------------------------------------------------------
-on = True
-while on:
+FMP = True
+while FMP:
     try:#In case a user types a letter instead of a number
         whatDo = int(input("""
 Choose an option:
@@ -127,135 +131,235 @@ Choose an option:
 Enter choice: """))
     except ValueError:
         print("Please enter a valid number from the list of options above\n")
-        sleep(4)
         continue
     print("\n")
 
 
     #MARK: Multiples----------------------------------------------------------------------------------------------------
     if whatDo == 1:
-         inputedText = input("What number would you like to find the multiples of?\n")
-         num = int(inputedText)
-         print("\n")
-         maxNum = int(input("What number would you like to multiply up to?\n"))
-         print("\n")
+        on = True
+        while on:
 
-         numList = multiples(num, maxNum)
-         outputList = [str(num) for num in numList]
-         outputList = ', '.join(outputList)
+            invalidChar = True
+            while invalidChar:
+                try:
+                    num = int(input("What number would you like to find the multiples of?\n"))
+                except ValueError:
+                    print("Invalid number, please try again\n")
+                    continue
+                else:
+                    invalidChar = False
 
-         x = input(f"Here are all the multiples {outputList}\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
-         if x == "n":
-             on = False
-         else:
-             pass
+            print("\n")
+            invalidChar = True
+            while invalidChar:
+                try:
+                    maxNum = int(input("What number would you like to multiply up to?\n"))
+                except ValueError:
+                    print("Invalid number, please try again\n")
+                else:
+                    invalidChar = False
 
+            print("\n")
+
+            multipleList = [str(num) for num in multiples(num, maxNum)]
+            
+
+            if len(multipleList) == 1:
+                goAgain = input(f"The multiple of {num} to {maxNum} is {multipleList[0]}.\nWould you like to find the multiples of a number again('Y') or would you like to do somthing else(Anything but 'Y')?\n").lower()
+            else:
+                lastMultiple = multipleList[len(multipleList) - 1]
+                multipleList.remove(lastMultiple)
+                multipleList = ', '.join(multipleList)
+                goAgain = input(f"The multiples of {num} up to {maxNum} are {multipleList} and {lastMultiple}.\nWould you like to find the multiples of a number again('Y') or would you like to do somthing else(Anything but 'Y')?\n")
+
+
+            if goAgain == "y":
+                continue
+            else:
+                on = False
 
     #MARK: Factors------------------------------------------------------------------------------------------------------
     elif whatDo == 2:
-        num = int(input("What number would you like to find the factors of?\n"))
-        print("\n")
+        on = True
+        while on:
 
-        # noinspection PyArgumentList
-        numList = factors(num)
-        outputList = [str(num) for num in numList]
-        outputList = ', '.join(outputList)
+            invalidChar = True
+            while invalidChar:
+                try:
+                    num = int(input("What number would you like to find the factors of?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
 
-        x = input(f"Here are all the factors {outputList}\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
-        if x == "n":
-            on = False
-        else:
-            pass
+            print("\n")
+            # noinspection PyArgumentList
+            factorList = factors(num)
+            factorList = [str(num) for num in factorList]
+
+            lastMultiple = factorList[len(factorList) - 1]
+            factorList.remove(lastMultiple)
+            factorList.sort()
+            factorList = ', '.join(factorList)
+            goAgain = input(f"The factors of {num} are {factorList} and {lastMultiple}.\nWould you like to find the factors of a number again('Y') or would you like to do somthing else(Anything but 'Y')?\n")
+
+            if goAgain == "y":
+                continue
+            else:
+                on = False
 
 
     #MARK: Check if a number is prime-----------------------------------------------------------------------------------
     elif whatDo == 3:
+        on = True
+        while on:
 
-        num = int(input("Which number would you check to see if it's prime?\n"))
-        print("\n")
+            invalidChar = True
+            while invalidChar:
+                try:
+                    num = int(input("Which number would you check to see if it's prime?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
 
-        #NOTE: If num is prime
-        if isPrime(num):
+            print("\n")
 
-            x = input(f"{num} is prime.\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
-            if x == "n":
-                on = False
+            #NOTE: If num is prime
+            if isPrime(num):
+
+                goAgain = input(
+                    f"{num} is prime.\nWould you like to see if a number is prime again('Y') or would you like to do somthing else(Anything but 'Y')?\n")
+
+
+            #NOTE: If num isn't prime
+            elif not isPrime(num):
+
+                goAgain = input(
+                    f"{num} is not prime.\nWould you like to see if a number is prime again('Y') or would you like to do somthing else(Anything but 'Y')?\n")
+
+            if goAgain == "y":
+                continue
             else:
-                pass
-
-        #NOTE: If num isn't prime
-        elif not isPrime(num):
-
-            x = input(f"{num} isn't prime.\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
-            if x == "n":
                 on = False
-            else:
-                pass
 
 
     #MARK: Primes from l to u-------------------------------------------------------------------------------------------
     elif whatDo == 4:
-        l = int(input("What is your lower limit(eg. 100 in 100-200)?\n"))
-        u = int(input("What is your upper limit(eg. 200 in 100-200)?\n"))
-        p = primesUpTo(u, l)
-        p = [str(num) for num in p]
-        x = input(f"The primes from {l} to {u} are {", ".join(p)}\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
-        if x == "n":
-            on = False
-        else:
-            pass
+        on = True
+        while on:
+            invalidChar = True
+            while invalidChar:
+                try:
+                    lowerLimit = int(input("What is your lower limit(eg. 100 in 100-200)?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
 
 
-    #NOTE: Find the prime factors of a number
+            invalidChar = True
+            while invalidChar:
+                try:
+                    upperLimit = int(input("What is your upper limit(eg. 200 in 100-200)?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
+
+            primes = primesUpTo(upperLimit, lowerLimit)
+            primes = [str(num) for num in primes]
+            goAgain = input(f"The primes from {lowerLimit} to {upperLimit} are {", ".join(primes)}\nWould you like to see the primes in a range again('Y') or would you like to do somthing else(Anything but 'Y')?\n").lower()
+            if goAgain == "y":
+                continue
+            else:
+                on = False
+
+
+    #MARK: Prime Factorisation
     elif whatDo == 5:
-        num = int(input("Which number would you like to see the prime factors of?\n"))
-        print("\n")
+        on = True
+        while on:
+            invalidChar = True
+            while invalidChar:
+                try:
+                    num = int(input("Which number would you like to see the prime factors of?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
 
-        a = primeFactorisation(num)
-        b = [str(z) for z in a]
-        c = ', '.join(b)
+            print("\n")
+            primeFactors = primeFactorisation(num)
+            primeFactors = [str(primeFactor) for primeFactor in primeFactors]
 
-        x = input(f"The prime factor(s) of {num} is/are {c}.\nWould you like to do somthing else('N' to exit the program or anything else to continue)?\n").lower()
-        if x == "n":
-            on = False
-        else:
-            pass
+            if len(primeFactors) == 1:
+                goAgain = input(f"The prime factor of {num} is {primeFactors[0]}.\nWould you like to see a number's prime factors again('Y') or would you like to do somthing else(Anything but 'Y')?\n").lower()
+            else:
+                lastPrimeFactor = primeFactors[len(primeFactors)-1]
+                primeFactors.remove(lastPrimeFactor)
+                primeFactors = ', '.join(primeFactors)
+                goAgain = input(f"The prime factors of {num} are {primeFactors} and {lastPrimeFactor}.\nWould you like to see a number's prime factors again('Y') or would you like to do somthing else(Anything but 'Y')?\n").lower()
+
+            if goAgain == "y":
+                continue
+            else:
+                on = False
 
 
     #MARK: HCF and LCM--------------------------------------------------------------------------------------------------
     elif whatDo == 6:
 
-        moreNumbersFromUserInput = True
-        allInputtedNumbers = []
-        a = int(input("What is your first number?\n"))
-        b = int(input("What is your second number?\n"))
+        on = True
+        while on:
+            allInputtedNumbers = []
+            invalidChar = True
+            while invalidChar:
+                try:
+                    firstInputtedNumber = int(input("What is your first number?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
+            allInputtedNumbers.append(firstInputtedNumber)
 
-        while moreNumbersFromUserInput:
-            newNumber = input("Enter a number to find its HCF and LCM along with the others, or enter anything else to calculate the HCF and LCM of your chosen numbers.")
-            try:
-                allInputtedNumbers.append(int(newNumber))
-            except ValueError:
-                print("Calculating...\n")
-                moreNumbersFromUserInput = False
+            invalidChar = True
+            while invalidChar:
+                try:
+                    secondInputtedNumber = int(input("What is your second number?\n"))
+                except ValueError:
+                    print("Invalid number, please try again.\n")
+                else:
+                    invalidChar = False
 
-        # Most of the below code is for the purpose of proper grammar in the input() statement at the bottom
-        allInputtedNumbers.append(b)
-        lcmHCF = lcmAndHCF(a, allInputtedNumbers)
-        allInputtedNumbers.append(a)
-        allInputtedNumbers.sort()
-        a = allInputtedNumbers[len(allInputtedNumbers) - 1]
-        allInputtedNumbers.pop(len(allInputtedNumbers) - 1)
-        allInputtedNumbers = [str(x) for x in allInputtedNumbers]
-        #Most of the above code is for the purpose of proper grammar in the input() statement below
+            allInputtedNumbers.append(secondInputtedNumber)
 
-        x = input(f"The HCF and LCM of {', '.join(allInputtedNumbers)} and {a} are {lcmHCF["HCF"]} and {lcmHCF["LCM"]}.\nWould you like to do something else('N' to exit the program or anything else to continue)").lower()
-        if x == "n":
-            on = False
-        else:
-            pass
+            moreNumbersFromUserInput = True
+            while moreNumbersFromUserInput:
+                newNumber = input("Enter a number to find its HCF and LCM along with the others, or enter any letter/enter to calculate the HCF and LCM of your chosen numbers.")
+                try:
+                    allInputtedNumbers.append(int(newNumber))
+                except ValueError:
+                    print("Calculating...\n")
+                    moreNumbersFromUserInput = False
+
+            # Most of the below code is for the purpose of proper grammar in the input() statement at the bottom
+
+            lcmHCF = lcmAndHCF(firstInputtedNumber, allInputtedNumbers)
+            lastInputtedNumber = allInputtedNumbers[len(allInputtedNumbers) - 1]
+            allInputtedNumbers.remove(lastInputtedNumber)
+            allInputtedNumbers = [str(x) for x in allInputtedNumbers]
+
+            goAgain = input(f"The HCF and LCM of {', '.join(allInputtedNumbers)} and {lastInputtedNumber} are {lcmHCF["HCF"]} and {lcmHCF["LCM"]}.\nWould you like to see a number's prime factors again('Y') or would you like to do somthing else(Anything but 'Y')?").lower()
+
+            if goAgain == "y":
+                continue
+            else:
+                on = False
 
 
     else:
-        print("Please choose a valid option")
-        sleep(4)
-        print("\n"*2)
+        print("Please enter a valid number from the list of options above\n")
+        continue
+    print("\n"*75)
