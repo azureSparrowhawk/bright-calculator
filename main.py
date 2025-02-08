@@ -3,6 +3,7 @@ from time import sleep, time
 
 #MARK: Functions--------------------------------------------------------------------------------------------------------
 def isPrime(numberToCheck)->bool:
+    """Checks if a number is prime by trying to divide it cleanly by all numbers from to to itself -1"""
     if numberToCheck <= 1:
         return False
     if type(numberToCheck) == float:
@@ -13,21 +14,21 @@ def isPrime(numberToCheck)->bool:
         if numberToCheck%i == 0:
             return False
     return True
-"""Checks if a number is prime by trying to divide it cleanly by all numbers from to to itself -1"""
 
 
+isPrime(2)
 
 def isListPrime(listToCheck:list):
+    """Checks if all numbers in a list are prime by seeing if each number in it is prime(using the isPrime() function)"""
     for i in listToCheck:
         if not isPrime(i):
             return False
     return True
-"""Checks if all numbers in a list are prime by seeing if each number in it is prime(using the isPrime() function)"""
-
 
 
 # noinspection PyArgumentList
 def primeFactorisation(numberToFactorise):
+    """Returns all prime factors of a given number as integers in a list. For example, primeFactorisation(8) would return [2, 2, 2]"""
     startList = [numberToFactorise]
     while not isListPrime(startList):#While the list containing the (prime) factors is not completely made of primes
         for i in startList:
@@ -40,30 +41,31 @@ def primeFactorisation(numberToFactorise):
                         break
     startList.sort()
     return startList
-"""Returns all prime factors of a given number as integers in a list. For example, primeFactorisation(8) would return [2, 2, 2]"""
-
 
 
 # noinspection PyArgumentList
 def multiples(number, maximumNumber):
+    """Returns the multiples of a dNum as integers in a list. The multiples go from dNum to dNum*mNum"""
     numbList = [number * i for i in range(1, maximumNumber + 1)]
     numbList.sort()
     return numbList
-"""Returns the multiples of a dNum as integers in a list. The multiples go from dNum to dNum*mNum"""
+
 
 
 
 def factors(number):
+    """Returns all factors of numbe as integers in a list."""
     # noinspection PyArgumentList
     numbeList = [i for i in range(1, int((number/2)+1)) if number % i == 0]
     numbeList.append(number)
     numbeList.sort()
     return numbeList
-"""Returns all factors of numbe as integers in a list."""
+
 
 
 
 def lcmAndHCF(lastNum, allNumbers):
+    """Returns the HCF and LCM of firstNum and the numbers in the list allNumbers"""
     HCF = 1
     LCM = 1
     allFactorLists = [primeFactorisation(number) for number in allNumbers]
@@ -88,7 +90,7 @@ def lcmAndHCF(lastNum, allNumbers):
 
     return {"HCF": HCF,
             "LCM": LCM}
-"""Returns the HCF and LCM of firstNum and the numbers in the list allNumbers"""
+
 
 
 
@@ -332,7 +334,6 @@ Enter choice: """))
                     print("Invalid number, please try again.\n")
                 else:
                     invalidChar = False
-
             allInputtedNumbers.append(secondInputtedNumber)
 
             moreNumbersFromUserInput = True
@@ -345,14 +346,12 @@ Enter choice: """))
                     moreNumbersFromUserInput = False
 
             # Most of the below code is for the purpose of proper grammar in the input() statement at the bottom
-
             lcmHCF = lcmAndHCF(firstInputtedNumber, allInputtedNumbers)
             lastInputtedNumber = allInputtedNumbers[len(allInputtedNumbers) - 1]
             allInputtedNumbers.remove(lastInputtedNumber)
             allInputtedNumbers = [str(x) for x in allInputtedNumbers]
 
             goAgain = input(f"The HCF and LCM of {', '.join(allInputtedNumbers)} and {lastInputtedNumber} are {lcmHCF["HCF"]} and {lcmHCF["LCM"]}.\nWould you like to see a number's prime factors again('Y') or would you like to do somthing else(Anything but 'Y')?").lower()
-
             if goAgain == "y":
                 continue
             else:
